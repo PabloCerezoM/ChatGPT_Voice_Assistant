@@ -5,7 +5,7 @@ import time
 
 
 # Initialize OpenAI API
-openai.api_key = ""
+openai.api_key = "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"
 # Initialize the text to speech engine 
 engine=pyttsx3.init()
 
@@ -38,6 +38,7 @@ for voice in voices:
         spanish_voice = voice.id
 if spanish_voice is not None:
     engine.setProperty('voice', spanish_voice)
+    engine.setProperty(100)
 
 def speak_text(text):
     engine.say(text)
@@ -46,16 +47,18 @@ def speak_text(text):
 def main():
     while True:
         #Waith for user say "genius"
-        print("Di 'Hola' para empezar a grabar")
+        print("Di 'Tormo' para empezar a grabar")
         with sr.Microphone() as source:
             recognizer=sr.Recognizer()
             audio=recognizer.listen(source)
             try:
                 transcription = recognizer.recognize_google(audio, language="es")
-                if transcription.lower()=="hola":
+                if transcription.lower()=="tormo":
+                    answer = "Dime que quieres mozo"
+                    print(answer)
                     #record audio
                     filename ="input.wav"
-                    print("Dime que quieres mozo")
+
                     with sr.Microphone() as source:
                         recognizer=sr.Recognizer()
                         source.pause_threshold=1
@@ -65,11 +68,11 @@ def main():
                     #transcript audio to test 
                     text=transcribe_audio_to_test(filename)
                     if text:
-                        print(f"Yo {text}")
+                        print(f"Yo: {text}")
                         
                         #Generate the response
                         response = generate_response(text)
-                        print(f"El bot ese dice: {response}")
+                        print(f"Tormo: {response}")
                             
                         #read resopnse using GPT3
                         speak_text(response)
